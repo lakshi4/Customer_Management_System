@@ -193,7 +193,7 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         // Map addresses
-        if (dto.getAddresses() != null) {
+        if (dto.getAddress() != null) {
             for (AddressDto addressDto : dto.getAddress()) {
                 Address address = new Address();
                 address.setAddressLine1(addressDto.getAddressLine1());
@@ -241,7 +241,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         // Map addresses
         if (customer.getAddresses() != null) {
-            dto.setAddresses(customer.getAddresses().stream()
+            dto.setAddress(customer.getAddresses().stream()
                     .map(address -> {
                         AddressDto addressDto = new AddressDto();
                         addressDto.setAddressLine1(address.getAddressLine1());
@@ -265,6 +265,13 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         return dto;
+    }
+
+
+    @Override
+    public Customer saveCustomer(Customer customer) {
+    
+        throw new UnsupportedOperationException("Unimplemented method 'saveCustomer'");
     }
 
     // @Override
