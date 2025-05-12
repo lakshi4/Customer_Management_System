@@ -1,6 +1,7 @@
 package com.customer.customer.entity;
 
-import org.springframework.data.annotation.Id;
+//import org.springframework.data.annotation.Id;
+import jakarta.persistence.Id;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,6 +30,25 @@ public class MobileNumber {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="customer_id")
     private Customer customer;
+
+   
+
+     // Getters and setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getMobileNumber() {
+        return number;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.number = mobileNumber;
+    }
 
 
     // public void setCustomer(Customer customer) {

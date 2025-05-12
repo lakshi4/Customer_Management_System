@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings("unused")
 @Service
 @RequiredArgsConstructor
-public class CustomerServiceImpl <excelHelper> implements CustomerService {
+public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CountryRepository countryRepository;
@@ -42,7 +42,7 @@ public class CustomerServiceImpl <excelHelper> implements CustomerService {
         validateNIC(customerDto.getNic());
         
         Customer customer = new Customer();
-        mapCustomerDTOToEntity(customerDto, customer);
+        mapCustomerDtoToEntity(customerDto, customer);
         
         Customer savedCustomer = customerRepository.save(customer);
         return mapCustomerToDTO(savedCustomer);
@@ -62,10 +62,10 @@ public class CustomerServiceImpl <excelHelper> implements CustomerService {
         
         // Clear existing associations
         customer.getMobileNumbers().clear();
-        customer.getAddress().clear();
+        customer.getAddresses().clear();
         customer.getFamilyMembers().clear();
         
-        mapCustomerDTOToEntity(customerDto, customer);
+        mapCustomerDtoToEntity(customerDto, customer);
         
         Customer updatedCustomer = customerRepository.save(customer);
         return mapCustomerToDTO(updatedCustomer);
@@ -161,7 +161,7 @@ public class CustomerServiceImpl <excelHelper> implements CustomerService {
     private Customer mapRowToCustomer(Row row) {
         Customer customer = new Customer();
         customer.setName(row.getCell(0).getStringCellValue());
-        customer.setDateOfBirth(LocalDate.parse(row.getCell(1).getStringCellValue()));
+        customer.setDateOfBirth(row.getCell(1).getLocalDateTimeCellValue());
         customer.setNic(row.getCell(2).getStringCellValue());
 
         // Process mobile numbers if present
@@ -178,7 +178,7 @@ public class CustomerServiceImpl <excelHelper> implements CustomerService {
         return customer;
     }
 
-    private void mapCustomerDTOToEntity(CustomerDto dto, Customer entity) {
+    private void mapCustomerDtoToEntity(CustomerDto dto, Customer entity) {
         entity.setName(dto.getName());
         entity.setDateOfBirth(dto.getDateOfBirth());
         entity.setNic(dto.getNic());
@@ -240,17 +240,17 @@ public class CustomerServiceImpl <excelHelper> implements CustomerService {
         }
 
         // Map addresses
-        if (customer.getAddress() != null) {
-            dto.setAddresses(customer.getAddress().stream()
+        if (customer.getAddresses() != null) {
+            dto.setAddresses(customer.getAddresses().stream()
                     .map(address -> {
                         AddressDto addressDto = new AddressDto();
                         addressDto.setAddressLine1(address.getAddressLine1());
                         addressDto.setAddressLine2(address.getAddressLine2());
                         if (address.getCity() != null) {
-                            addressDto.setCityId(((CustomerDto) address.getCity()).getId());
+                            addressDto.setCityId(address.getCity().getId());
                         }
                         if (address.getCountry() != null) {
-                            addressDto.setCountryId(((CustomerDto) address.getCountry()).getId());
+                            addressDto.setCountryId( address.getCountry().getId());
                         }
                         return addressDto;
                     })
