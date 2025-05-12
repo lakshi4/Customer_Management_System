@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 import com.customer.customer.dto.BulkUploadResponse;
 import com.customer.customer.dto.CustomerDto;
+import com.customer.customer.entity.Customer;
 
 
 public interface CustomerService {
@@ -14,5 +15,6 @@ public interface CustomerService {
     void deleteCustomer(Long id);
     List<CustomerDto> getAllCustomers();
     BulkUploadResponse bulkUpload(MultipartFile file);
+    Customer saveCustomer(Customer customer);
 
 }
