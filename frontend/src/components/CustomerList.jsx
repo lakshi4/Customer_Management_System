@@ -5,23 +5,25 @@ import {getAllCustomers, deleteCustomer } from '../services/CustomerService';
 
 const CustomerList =()=>{
     const [customers, setCustomers] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [ loading,setLoading] = useState(true);
     const [error, setError] = useState(null);
 
 
   useEffect(() => {
-    fetchCustomers();
-  }, []);
+  fetchCustomers();
+}, []);
 
-  const fetchCustomers = async () => {
-    try {
-      const response = await getAllCustomers();
-      setCustomers(response.data);
-    } catch (error) {
-        setError(error.message);
-        setLoading(false);
-    }
+const fetchCustomers = async () => {
+  try {
+    setLoading(true);  // <- This must be a function
+    const response = await getAllCustomers();
+    setCustomers(response.data);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoading(false);
   }
+};
 
   const handleDelete = async (id) => {
     try{
@@ -34,7 +36,7 @@ const CustomerList =()=>{
 
 if (loading) {
     return <div>Loading...</div>;
-  }
+ }
 if (error) {
     return <Alert variant="danger">
         {error} </Alert>;
@@ -68,6 +70,7 @@ if (error) {
               <td>{customer.name}</td>
               <td>{customer.dateOfBirth}</td>
               <td>{customer.nic}</td>
+              <td>{customer.mobileNumber}</td>
               <td>
                 <Link
                   to={`/customers/${customer.id}`}
