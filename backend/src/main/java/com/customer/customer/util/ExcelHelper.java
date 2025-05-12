@@ -6,7 +6,9 @@ import java.io.InputStream;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ExcelHelper {
 
 

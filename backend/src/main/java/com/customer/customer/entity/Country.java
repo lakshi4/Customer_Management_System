@@ -25,4 +25,12 @@ public class Country {
         cities.add(city);
         city.setCountry(this);
     }
+
+    @ManyToOne
+@JoinColumn(name = "city_id")
+private City city;
+
+    public Long getId() {
+        return id;
+    }
 }

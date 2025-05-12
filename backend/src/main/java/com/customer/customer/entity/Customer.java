@@ -1,32 +1,18 @@
 package com.customer.customer.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
-
-import java.time.LocalDate;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "customers", uniqueConstraints = @UniqueConstraint(columnNames = "nic"))
-
 public class Customer {
 
     @Id
@@ -42,17 +28,23 @@ public class Customer {
     @Column(nullable = false, unique = true)
     private String nic;
 
-    @OneToMany(mappedBy = "customer" , cascade = CascadeType.ALL , orphanRemoval = true)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MobileNumber> mobileNumbers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "customer" , cascade = CascadeType.ALL , orphanRemoval = true)
-    private List<Address> address = new ArrayList<>();
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Address> addresses = new ArrayList<>();
     
     @ManyToMany
     @JoinTable(name = "customer_familyMember",
-            joinColumns = @jakarta.persistence.JoinColumn(name = "customer_id"),
-            inverseJoinColumns = @jakarta.persistence.JoinColumn(name = "familyMember_id"))
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "familyMember_id"))
     private List<Customer> familyMembers = new ArrayList<>();
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+    
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     public void addMobileNumber(MobileNumber mobileNumber) {
         mobileNumbers.add(mobileNumber);
@@ -60,7 +52,7 @@ public class Customer {
     }
 
     public void addAddress(Address address) {
-        this.address.add(address);
+        this.addresses.add(address);
         address.setCustomer(this);
     }
 
@@ -69,12 +61,8 @@ public class Customer {
      
     }
 
-    public void setDateOfBirth(LocalDate localDate) {
-        throw new UnsupportedOperationException("Unimplemented method 'setDateOfBirth'");
+    public void setDateOfBirth(LocalDateTime dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
-
-    public void setDateOfBirth(String dateOfBirth2) {
-        throw new UnsupportedOperationException("Unimplemented method 'setDateOfBirth'");
-    }   
 
 }

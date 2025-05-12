@@ -16,7 +16,7 @@ public class CustomerDto {
     private String name;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private String dateOfBirth;
+    private LocalDateTime dateOfBirth;
     private String nic;
     private List<String> mobileNumbers = new ArrayList<>();
     private List<AddressDto> address = new ArrayList<>(); 
@@ -27,9 +27,9 @@ public class CustomerDto {
         
         throw new UnsupportedOperationException("Unimplemented method 'getAddresses'");
     }
-    public void setDateOfBirth(LocalDateTime dateOfBirth2) {
+    public void setDateOfBirth(LocalDateTime dateOfBirth) {
         
-        throw new UnsupportedOperationException("Unimplemented method 'setDateOfBirth'");
+   this.dateOfBirth = dateOfBirth;
     }
     public void setAddresses(List<AddressDto> collect) {
 
